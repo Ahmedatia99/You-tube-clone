@@ -1,0 +1,26 @@
+body{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0 auto;
+
+}
+.search-bar{
+    border:none;
+    outline:none;
+    width:350px;
+    color: #000;
+  }
+  
+
+  @media screen and (max-width: 600px) {
+    .scroll-horizontal {
+      overflow: auto !important;
+    }
+  
+    .react-player {
+      height: 45vh !important;
+    }
+    .search-bar{
+      width:200px;
+    }
+  }
