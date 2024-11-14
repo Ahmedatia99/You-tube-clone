@@ -1,37 +1,55 @@
-import { Stack, Box, Typography } from "@mui/material";
-import { SliderBar ,Videos } from "./";
+import React, { useEffect, useState } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+
+import { fetchFromAPI } from "../utils/fetchFromAPI";
+import { Videos, SliderBar } from "./";
+
 const Feed = () => {
+  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [videos, setVideos] = useState(null);
+
+  useEffect(() => {
+    setVideos(null);
+
+    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`).then((data) =>
+      setVideos(data.items)
+    );
+  }, [selectedCategory]);
+
   return (
-    <Stack sx={{ flexDirection: { sx: "colum", md: "row" } }}>
+    <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
       <Box
         sx={{
-          height: { sx: "auto", md: "calc(100vh - 78px)" },
+          height: { sx: "auto", md: "92vh" },
           borderRight: "1px solid #3d3d3d",
-          px: { xs: 0, md: 2 },
+          px: { sx: 0, md: 2 },
         }}
       >
-        |<SliderBar />
+        <SliderBar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+
         <Typography
           className="copyright"
           variant="body2"
-          sx={{ color: "#fff" }}
+          sx={{ mt: 1.5, color: "#fff" }}
         >
-          Copyright 2024 A3
+          Copyright © 2022 JSM Media
         </Typography>
       </Box>
-      <Box
-        p={2}
-        sx={{ overflow: "auto", height: "calc(100vh - 78px)", flex: 2 }}
-      >
+
+      <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
         <Typography
           variant="h4"
           fontWeight="bold"
           mb={2}
           sx={{ color: "white" }}
         >
-          New <span style={{ color: "#f31503" }}>videos</span>
+          {selectedCategory} <span style={{ color: "#FC1503" }}>videos</span>
         </Typography>
-        <Videos videos={[]}/>
+
+        <Videos videos={videos} />
       </Box>
     </Stack>
   );
